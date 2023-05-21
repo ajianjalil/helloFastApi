@@ -13,16 +13,16 @@ app.mount(
     name="static",
 )
 
-@app.get("/")
-async def root():
-    return {"Message": "Ajith is a fast learner"}
+# @app.get("/")
+# async def root():
+#     return {"Message": "Ajith is a fast learner"}
 
 
-@app.post("/")
-async def post():
-    return {"Message": " Message is from post method"}
+# @app.post("/")
+# async def post():
+#     return {"Message": " Message is from post method"}
 
-@app.get("/home/home")
+@app.get("/home")
 async def get():
     ret='''
     <html>
@@ -33,18 +33,11 @@ async def get():
     '''
     return HTMLResponse(content=ret)
 
-@app.get("/home/dashboard")
-async def get_dashboard():
-    ret='''
-    <html>
-    <body>
-    <h2>Hello World!</h2>
-    </body>
-    </html>
-    '''
-    return HTMLResponse(content=ret)
+@app.get("/products",response_class=HTMLResponse)
+async def get_dashboard(request: Request):
+    return templates.TemplateResponse("products_list.html", {"request": request})
 
 
-@app.get("/home/index",response_class=HTMLResponse)
+@app.get("/",response_class=HTMLResponse)
 async def get_index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
