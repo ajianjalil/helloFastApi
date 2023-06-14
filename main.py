@@ -1,4 +1,4 @@
-from fastapi import FastAPI,Request
+from fastapi import Body, FastAPI,Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -56,3 +56,8 @@ async def request_a_call_back(request: Request, item:Customer):
 @app.get("/req_call_back_page",response_class=HTMLResponse)
 async def req_call_back_page(request: Request):
     return templates.TemplateResponse("form.html",{"request":request})
+
+
+@app.post('/test_path_param/')
+async def test_path_param(q:str | None = "Ajith",item: str | None = Body(default={"name":"Ajith","age":28},description="Ajithkumar Body example")):
+    return {"q":q,"item":item}
