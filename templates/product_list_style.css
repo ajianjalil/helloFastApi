@@ -1,0 +1,31 @@
+.item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.name {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
+    font-size: 16px;
+    color: #000;
+}
+
+.price {
+    font-size: 14px;
+    color: #888;
+    position: relative;
+    bottom: 10px;
+    right: 10px;
+}
