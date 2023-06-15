@@ -1,3 +1,8 @@
 fastapi
 uvicorn[standard]
 jinja2
+sqlalchemy
+alembic
+python-dotenv
+psycopg2-binary
+fastapi_sqlalchemy

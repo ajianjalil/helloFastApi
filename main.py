@@ -5,24 +5,31 @@ from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 from pydantic import BaseModel
 
+import os
+from fastapi_sqlalchemy import DBSessionMiddleware, db
+from dotenv import load_dotenv
+load_dotenv(".env")
+
+from schema import Customer,Item
+from models import Customer as modelCustomer, Item as modelItem
+
 app = FastAPI(description="""
 # This is code for me to refer as well learn fast api
 ## Thanks to the youtube channel JVP Design for helping me to learn fastapi
-""", version="1.0.0"
-              
-              
-              )
+""", version="1.0.0")
+
+app.add_middleware(DBSessionMiddleware, db_url=os.environ["DATABASE_URL"])
 templates = Jinja2Templates(directory="templates")
 
-class Customer(BaseModel):
-    name : str | None = None
-    email : str | None = None
-    phone : str | None
+# class Customer(BaseModel):
+#     name : str | None = None
+#     email : str | None = None
+#     phone : str | None
 
-class Item(BaseModel):
-    name : str | None = None
-    price : str | None = None
-    thumbnail : str
+# class Item(BaseModel):
+#     name : str | None = None
+#     price : str | None = None
+#     thumbnail : str
 
 
 app.mount(
@@ -87,3 +94,18 @@ async def list_of_item():
     ]
     # list = list*10
     return {"list":list}
+
+@app.post("/add-item/", response_model=Item)
+def add_book(book: Item):
+    db_book = modelItem(title=book.title, rating=book.rating,price=book.price,url=book.url,customer_id=book.customer_id)
+    db.session.add(db_book)
+    db.session.commit()
+    return db_book
+
+
+@app.post("/add-customer/", response_model=Customer)
+def add_author(author: Customer):
+    db_author = modelCustomer(name=author.name, mail=author.mail,phone=author.phone)
+    db.session.add(db_author)
+    db.session.commit()
+    return db_author
