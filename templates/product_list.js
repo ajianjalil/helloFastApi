@@ -8,11 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         })
         .then(function (data) {
-            console.log("DATA", data);
-            var items = data.list;
+            console.log("DATA recieved:", data);
+            // var items = data.list;
             var listContainer = document.querySelector("#items-list");
-            console.log(items);
-            items.forEach(function (item) {
+            // console.log(items);
+            data.forEach(function (item) {
 
                 html_element = elementFromHtml(`
                 <div class="item">
@@ -23,14 +23,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 `);
 
                 const thumbnail = html_element.querySelector('.thumbnail');
-                thumbnail.src = item.thumbnail;
+                thumbnail.src = item.url;
 
                 // Change the 'alt' attribute of the image
                 thumbnail.alt = 'New Item Thumbnail';
 
                 // Change the text content of the name span
                 const nameSpan = html_element.querySelector('.name');
-                nameSpan.textContent = item.name
+                nameSpan.textContent = item.title
 
                 // Change the text content of the price span
                 const priceSpan = html_element.querySelector('.price');
